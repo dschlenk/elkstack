@@ -72,6 +72,20 @@ suites:
           zen:
             minimum_master_nodes: 1 # since search returns more than one, but they are fake
 
+  - name: single-syslog-ng # single
+    data_bags_path: "test/integration/default/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
+    run_list:
+      - recipe[elkstack::java]
+      - recipe[elkstack::single]
+    excludes: # upstream syslog-ng only supports CentOS
+      - ubuntu-12.04
+      - ubuntu-14.04
+    attributes:
+      elkstack:
+        config:
+          syslog_pkg: 'syslog-ng'
+
   - name: default-nokeypair # server
     run_list:
       - recipe[elkstack::java]

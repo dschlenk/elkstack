@@ -7,6 +7,13 @@ default['elkstack']['config']['logstash']['agent_name'] = 'agent'
 # default to not running the cluster search recipe
 default['elkstack']['config']['cluster'] = false
 
+# Default to using rsyslog to deliver syslog messages to logstash.
+# Other options are 'syslog-ng' or nil, which will leave logstash listening on
+# port 5959 on 127.0.0.1 for syslog messages but nothing delivering messages
+# there. You might want this if you're using something else to manage your
+# syslog configuration.
+default['elkstack']['config']['syslog_pkg'] = 'rsyslog'
+
 # attempt to use performance cloud data disk
 default['elkstack']['config']['data_disk']['disk_config_type'] = false
 

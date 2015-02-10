@@ -26,3 +26,6 @@ end
 
 # until https://github.com/opscode-cookbooks/openssl/pull/11
 cookbook 'openssl', git: 'git@github.com:racker/openssl.git'
+
+# upstream be old, son
+cookbook 'syslog-ng', git: 'git@github.com:dschlenk/syslog-ng.git'
