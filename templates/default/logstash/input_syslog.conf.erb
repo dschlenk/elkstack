@@ -7,7 +7,8 @@ input {
 }
 
 filter {
-  if [type] == "syslog" {
+  # exclude CiscoLog formatted messages from BSD formatted processing
+  if [type] == "syslog" and [message] !~ /%.*?-.*?-.*?:/ {
     grok {
       overwrite => "message"
       match => [
