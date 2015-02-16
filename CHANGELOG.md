@@ -1,3 +1,23 @@
+# 4.2.0
+
+Workarounds and more support for Kibana 4
+    
+- Use 'kibana' as basic auth password for kibana, in test-kitchen
+- Update to latest Elasticsearch (1.3.4 to 1.4.3) as Kibana 4 requires 1.4.x or greater (fixes #108)
+- Enable dynamic scripting in Elasticsearch by default, as Kibana 4 requires it
+- Add `kibana4_workarounds` recipe which deploys a working Kibana 4 configuration file (fixes #103)
+- Add `node['elkstack']['kibana4_workaround']` that is enabled by by default, guards execution of recipe kibana4_workarounds
+- Tests for elasticsearch health now drop replicas first, as kibana 4 seems to create an immediately orphaned one on a single node
+- Remove 'no keypair' test for servers and agents in integration suites, add unit tests for the same
+
+# 4.1.0
+
+- Kibana password can now be a node attribute or run_state entry, is now respected (#99)
+- Add missing runit dependency (#107)
+- More workarounds and fixes for kibana 4 (#104)
+- Change logstash forwarder to be installed from Git since packages were removed (#109)
+- Update to newer upstream logstash cookbook to get fix for https://github.com/lusis/chef-logstash/issues/387 (#111)
+
 # 4.0.0
 
 - Use the latest lusis/chef-kibana cookbook, now installs Kibana 4
