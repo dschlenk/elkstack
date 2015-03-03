@@ -17,8 +17,24 @@ describe service('elasticsearch') do
 end
 
 describe 'elasticsearch' do
+  # let ES settle
+  describe command('sleep 60') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  # kibana likes to create orphaned replica shards when it creates
+  # a fresh index to store its own data within
+  describe command('curl -XPUT localhost:9200/_settings -d\'{"number_of_replicas":0}\'') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  # time to obey the previous command
+  describe command('sleep 10') do
+    its(:exit_status) { should eq 0 }
+  end
+
   # test with curl here
-  describe command('sleep 60 && curl localhost:9200/_cluster/health?pretty=1') do
+  describe command('curl localhost:9200/_cluster/health?pretty=1') do
     its(:stdout) { should match(/.*"status" : "green".*/) }
   end
 
