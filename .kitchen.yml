@@ -88,6 +88,10 @@ suites:
       elkstack:
         config:
           syslog_pkg: 'syslog-ng'
+      kibana:
+        version: '4.0.2-linux-x64'
+        file:
+          url: 'https://download.elastic.co/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz'
 
   - name: lumberjack # server with lumberjack disabled
     data_bags_path: "test/integration/default/data_bags"
