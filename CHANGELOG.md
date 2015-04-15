@@ -1,3 +1,9 @@
+# 4.2.2
+
+- Bump Elasticsearch to 1.4.4
+- Update kibana configuration file to support more kibana 4 parameter names
+- Disable Kibana 4 workarounds
+
 # 4.2.1
 
 Miscellaneous fixes
@@ -8,7 +14,7 @@ Miscellaneous fixes
 # 4.2.0
 
 Workarounds and more support for Kibana 4
-    
+
 - Use 'kibana' as basic auth password for kibana, in test-kitchen
 - Update to latest Elasticsearch (1.3.4 to 1.4.3) as Kibana 4 requires 1.4.x or greater (fixes #108)
 - Enable dynamic scripting in Elasticsearch by default, as Kibana 4 requires it
@@ -130,7 +136,7 @@ Workarounds and more support for Kibana 4
 
 # 2.0.0
 
-- Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
+- Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elastic/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
 - Add additional tests for existing test-kitchen suites to ensure new lumberjack keypair is written to disk.
 - Fix a chefspec test issue where tests were checking for something that didn't make sense, didn't pass.
 

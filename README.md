@@ -83,9 +83,10 @@ This key and certificate data should be placed in data bag with name
 `certificate` keys, and base64 encoded into a single line string. You may also
 supply these secrets with some other method and populate the appropriate
 `node.run_state` values (see `_secrets.rb` for more details). Note that this is
-not a PKI trust model, but an [explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel).
+not a PKI trust model, but an [explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel). You may also set the data bag key to false to disable lumberjack entirely.
 
-There exists a make-lumberjack-key.sh to help you make this.
+There exists a make-lumberjack-key.sh to help you make this. For Go 1.3+, you may be required
+by the standard libraries to create a SAN cert [as described here](https://github.com/elastic/logstash-forwarder/issues/221#issuecomment-48823952).
 
 ## [Changelog](CHANGELOG.md)
 
@@ -269,7 +270,7 @@ search criteria.
 Most of this is configurable using the upstream Elasticsearch cookbook's
 attributes, including the chef search itself. There is not an easy toggle to
 turn off the search, however.
-Enables iptables rules if default['elkstack']['iptables']['enabled'] not nil
+Enables iptables rules if `node['elkstack']['iptables']['enabled']` is not `nil`.
 
 ### elkstack::logstash
 
