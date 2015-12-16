@@ -58,7 +58,7 @@ platforms:
   - name: ubuntu-12.04
     run_list:
     - recipe[apt]
-  - name: centos-6.6
+  - name: centos-6.7
     run_list:
     - recipe[yum]
 
@@ -79,6 +79,7 @@ suites:
     data_bags_path: "test/integration/default/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     run_list:
+      - recipe[yum-epel::default]
       - recipe[elkstack::java]
       - recipe[elkstack::single]
     excludes: # upstream syslog-ng only supports CentOS
@@ -92,6 +93,8 @@ suites:
         version: '4.0.2-linux-x64'
         file:
           url: 'https://download.elastic.co/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz'
+      java:
+        jdk_version: '7'
 
   - name: lumberjack # server with lumberjack disabled
     data_bags_path: "test/integration/default/data_bags"
