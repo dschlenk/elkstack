@@ -8,17 +8,17 @@ else
 end
 
 describe 'sending a test line to /usr/bin/logger should reach elasticsearch' do
-    describe 'should restart logstash before the test' do
-      describe command('service logstash_server restart && sleep 30') do
-        its(:exit_status) { should eq 0 }
-      end
-    end
-
-    # kibana likes to create orphaned replica shards when it creates
-    # a fresh index to store its own data within
-    describe command('curl -XPUT localhost:9200/_settings -d\'{"number_of_replicas":0}\'') do
+  describe 'should restart logstash before the test' do
+    describe command('service logstash_server restart && sleep 30') do
       its(:exit_status) { should eq 0 }
     end
+  end
+
+  # kibana likes to create orphaned replica shards when it creates
+  # a fresh index to store its own data within
+  describe command('curl -XPUT localhost:9200/_settings -d\'{"number_of_replicas":0}\'') do
+    its(:exit_status) { should eq 0 }
+  end
 
   describe 'should send a test line to syslog' do
     describe command("logger #{logline}") do

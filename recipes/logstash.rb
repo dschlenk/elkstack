@@ -29,9 +29,11 @@ end
 # by default, these are the inputs and outputs on the server
 my_templates = {
   'input_syslog'         => 'logstash/input_syslog.conf.erb',
-  'output_stdout'        => 'logstash/output_stdout.conf.erb',
   'output_elasticsearch' => 'logstash/output_elasticsearch.conf.erb'
 }
+if node['elkstack']['config']['logstash']['output_stdout']
+  my_templates['output_stdout'] = 'logstash/output_stdout.conf.erb'
+end
 
 template_variables = {
   input_lumberjack_host: '0.0.0.0',

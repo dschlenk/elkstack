@@ -1,5 +1,6 @@
 # the name for the logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['instance_name'] = 'server'
+default['elkstack']['config']['logstash']['output_stdout'] = true
 
 # the name for an agent logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['agent_name'] = 'agent'

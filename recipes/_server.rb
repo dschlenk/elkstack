@@ -33,11 +33,11 @@ end
 
 if node['network']['interfaces'][stripped_es_network_host].nil?
 
-  #append_if_no_line 'make sure a line is in /etc/hosts' do
-  #  path '/etc/hosts'
-  #  line "#{stripped_es_network_host} eslocal # nice shortcut for curl, etc."
-  #  action :edit
-  #end
+  # append_if_no_line 'make sure a line is in /etc/hosts' do
+  #   path '/etc/hosts'
+  #   line "#{stripped_es_network_host} eslocal # nice shortcut for curl, etc."
+  #   action :edit
+  # end
   hostsfile_entry stripped_es_network_host do
     hostname 'eslocal'
     action [:create_if_missing, :append]
@@ -48,10 +48,10 @@ else
   node.override['logstash']['instance'][instance_name]['config_templates_variables']['elasticsearch_ip'] = correct_ip
   node.override['kibana']['es_server'] = correct_ip
 
-  #append_if_no_line 'make sure a line is in /etc/hosts' do
-  #  path '/etc/hosts'
-  #  line "#{correct_ip} eslocal # nice shortcut for curl, etc."
-  #end
+  # append_if_no_line 'make sure a line is in /etc/hosts' do
+  #   path '/etc/hosts'
+  #   line "#{correct_ip} eslocal # nice shortcut for curl, etc."
+  # end
   hostfile_entry correct_ip do
     hostname 'eslocal'
     action [:create_if_missing, :append]
