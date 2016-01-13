@@ -36,3 +36,7 @@ default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = f
 
 # in order to use kibana, we must enable dynamic scripting
 default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
+
+# change this to use your own logging template
+default['elkstack']['elasticsearch']['logging_template_cookbook'] = 'elasticsearch'
+default['elkstack']['elasticsearch']['config_template_cookbook'] = 'elasticsearch'
