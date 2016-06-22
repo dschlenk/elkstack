@@ -20,7 +20,7 @@ default['elasticsearch']['plugins'] = {
 }
 
 # restrict elasticsearch to 40% of the box
-es_mem = ((node['memory']['total'].to_i * 0.4).floor / 1024) || 1024
+es_mem = (node['memory']['total'].to_i * 0.4).floor / 1024
 default['elasticsearch']['allocated_memory'] = "#{es_mem}m"
 
 # force all traffic to eth1, including published cluster addresses
