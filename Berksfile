@@ -1,15 +1,12 @@
-source "https://api.berkshelf.com"
+source "https://supermarket.chef.io"
 
 metadata
 
-# until https://github.com/elastic/cookbook-elasticsearch/pull/230
-cookbook 'elasticsearch', '~> 0.3', git:'git@github.com:racker/cookbook-elasticsearch.git'
+cookbook 'elasticsearch', git: 'https://github.com/rackspace-cookbooks/rackspace_elasticsearch.git'
+cookbook 'logstash', git: 'https://github.com/rackspace-cookbooks/rackspace_logstash.git'
 
 # until https://github.com/poise/python/pull/120
 cookbook 'python', git: 'git@github.com:racker/python.git'
-
-# until https://github.com/lusis/chef-logstash/issues/394
-cookbook 'logstash', git: 'git@github.com:lusis/chef-logstash.git'
 
 cookbook 'rackspace_iptables', git: 'git@github.com:rackspace-cookbooks/rackspace_iptables.git'
 cookbook 'rackspacecloud', git: 'git@github.com:rackspace-cookbooks/rackspacecloud.git'
