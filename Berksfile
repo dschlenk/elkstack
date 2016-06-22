@@ -8,7 +8,6 @@ cookbook 'logstash', git: 'git@github.com:lusis/chef-logstash.git'
 # until https://github.com/poise/python/pull/120
 cookbook 'python', git: 'git@github.com:racker/python.git'
 
-
 cookbook 'rackspace_iptables', git: 'git@github.com:rackspace-cookbooks/rackspace_iptables.git'
 cookbook 'rackspacecloud', git: 'git@github.com:rackspace-cookbooks/rackspacecloud.git'
 cookbook 'rackspace_gluster', git: 'git@github.com:rackspace-cookbooks/rackspace_gluster.git'
