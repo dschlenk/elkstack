@@ -1,7 +1,7 @@
 DEPENDENCIES
   apt
   elasticsearch
-    git: git@github.com:racker/cookbook-elasticsearch.git
+    git: git@github.com:rackspace-cookbooks/cookbook-elasticsearch.git
     revision: fddc01b3afe778589b6363512e97d2bfebf953fb
   elkstack
     path: .
@@ -29,7 +29,7 @@ DEPENDENCIES
     revision: e961ddb843b084c5e6bd3ecc417c291f0289f73e
   rackspacecloud
     git: git@github.com:rackspace-cookbooks/rackspacecloud.git
-    revision: d5eaf486cbc784a6d6a59aecb4b9c62c8cf46abc
+    revision: 42931a765132ce336771be217f649d0e7db049df
   syslog-ng
     git: git@github.com:dschlenk/syslog-ng.git
     revision: e6a0af7fd9371e7419534ecb63f4d244213ddbd6
@@ -290,7 +290,7 @@ GRAPH
     apt (>= 0.0.0)
     chef-sugar (>= 0.0.0)
     yum (>= 0.0.0)
-  rackspacecloud (0.0.6)
+  rackspacecloud (0.1.0)
     xml (>= 0.0.0)
   redis-multi (1.0.1)
     apt (>= 0.0.0)
