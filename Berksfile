@@ -2,7 +2,7 @@ source "https://supermarket.chef.io"
 
 metadata
 
-cookbook 'elasticsearch', '~> 0.3', git:'https://github.com/elastic/cookbook-elasticsearch.git'
+cookbook 'elasticsearch', git:'https://github.com/elastic/cookbook-elasticsearch.git'
 cookbook 'logstash', git: 'git@github.com:lusis/chef-logstash.git'
 
 # until https://github.com/poise/python/pull/120
