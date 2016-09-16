@@ -1,8 +1,5 @@
 # override the default ones from the elasticsearch cookbook
 
-# default['elasticsearch']['version']       = '1.3.4'
-# default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.noarch.rpm'
-# default['elasticsearch']['rpm_sha']       = 'a84034d07196e58b0471c3fe30289a738715c664'
 default['elasticsearch']['version'] = '1.4.4'
 default['elasticsearch']['rpm_url'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.noarch.rpm'
 default['elasticsearch']['rpm_sha'] = 'a4b31e6129f4c60bfe0998ede887d0c51a6ab403'
@@ -28,7 +25,7 @@ default['elasticsearch']['allocated_memory'] = "#{es_mem}m"
 default['elasticsearch']['network']['host'] = '_eth1:ipv4_'
 
 # rubocop:disable LineLength
-default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster AND chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:#{node['elasticsearch']['cluster']['name']} AND NOT name:#{node.name}"
+default['elasticsearch']['discovery']['search_query'] = "tags:elkstack AND chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:#{node['elasticsearch']['cluster']['name']} AND NOT name:#{node.name}"
 # rubocop:enable LineLength
 
 # by default, won't do multicast
@@ -40,3 +37,6 @@ default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
 # change this to use your own logging template
 default['elkstack']['elasticsearch']['logging_template_cookbook'] = 'elasticsearch'
 default['elkstack']['elasticsearch']['config_template_cookbook'] = 'elasticsearch'
+
+# get on a much newer java, required by ES
+default['java']['jdk_version'] = '7' # newer ES requires

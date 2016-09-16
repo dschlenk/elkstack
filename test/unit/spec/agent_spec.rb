@@ -10,7 +10,7 @@ describe 'elkstack::agent' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-      node.set['platformstack']['elkstack_logging']['enabled'] = true
+      node.set['elkstack']['config']['agent']['enabled'] = true
       node.set['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '127.0.0.1'
     end.converge(described_recipe)
   end
@@ -19,7 +19,7 @@ describe 'elkstack::agent' do
     expect(chef_run).to include_recipe('elkstack::agent')
     # Not with chef-solo.
     # expect(chef_run).to include_recipe('elasticsearch::search_discovery')
-    expect(chef_run).to include_recipe('elkstack::_secrets')
+    expect(chef_run).to include_recipe('elkstack::_lumberjack_secrets')
     expect(chef_run).to include_recipe('rsyslog::client')
   end
 
@@ -47,7 +47,7 @@ describe 'elkstack::agent without setting cluster nodes' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-      node.set['platformstack']['elkstack_logging']['enabled'] = true
+      node.set['elkstack']['config']['agent']['enabled'] = true
     end.converge('elkstack::agent')
   end
 
@@ -55,7 +55,7 @@ describe 'elkstack::agent without setting cluster nodes' do
     expect(chef_run).to include_recipe('elkstack::agent')
     # Not with chef-solo.
     # expect(chef_run).to include_recipe('elasticsearch::search_discovery')
-    expect(chef_run).to_not include_recipe('elkstack::_secrets')
+    expect(chef_run).to_not include_recipe('elkstack::_lumberjack_secrets')
     expect(chef_run).to_not include_recipe('rsyslog::client')
   end
 end
@@ -69,7 +69,7 @@ describe 'elkstack::agent with logging explicitly disabled' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-      node.set['platformstack']['elkstack_logging']['enabled'] = false
+      node.set['elkstack']['config']['agent']['enabled'] = false
     end.converge('elkstack::agent')
   end
 
@@ -77,7 +77,7 @@ describe 'elkstack::agent with logging explicitly disabled' do
     expect(chef_run).to include_recipe('elkstack::agent')
     # Not with chef-solo.
     # expect(chef_run).to include_recipe('elasticsearch::search_discovery')
-    expect(chef_run).to_not include_recipe('elkstack::_secrets')
+    expect(chef_run).to_not include_recipe('elkstack::_lumberjack_secrets')
     expect(chef_run).to_not include_recipe('rsyslog::client')
   end
 end
@@ -98,7 +98,7 @@ describe 'elkstack::agent with no servers but no logging set' do
     expect(chef_run).to include_recipe('elkstack::agent')
     # Not with chef-solo.
     # expect(chef_run).to include_recipe('elasticsearch::search_discovery')
-    expect(chef_run).to_not include_recipe('elkstack::_secrets')
+    expect(chef_run).to_not include_recipe('elkstack::_lumberjack_secrets')
     expect(chef_run).to_not include_recipe('rsyslog::client')
   end
 end

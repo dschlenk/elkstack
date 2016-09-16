@@ -7,10 +7,6 @@ describe port(5959) do
   it { should be_listening }
 end
 
-describe service('logstash_server') do
-  it { should be_running }
-end
-
 describe 'should be running Logstash main class' do
   # can't use process() matcher because of two java processes
   describe command('ps aux | grep -v grep | grep -s logstash/runner.rb') do
@@ -22,12 +18,16 @@ describe command('/opt/logstash/server/bin/logstash agent -f /opt/logstash/serve
   its(:exit_status) { should eq 0 }
 end
 
-describe 'lumberjack keypair' do
+describe 'lumberjack keypairs' do
   describe file('/opt/logstash/lumberjack.crt') do
     it { should be_file }
   end
-
   describe file('/opt/logstash/lumberjack.key') do
     it { should be_file }
   end
+end
+
+describe file('/opt/logstash/server/log/logstash.log') do
+  it { should be_file }
+  it { should_not contain 'Permission denied' }
 end

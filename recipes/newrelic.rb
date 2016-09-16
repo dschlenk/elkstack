@@ -6,9 +6,12 @@
 # Copyright 2014, Rackspace
 #
 
-unless node['newrelic']['license'].nil?
+include_recipe 'chef-sugar'
+newrelic_licence = node.deep_fetch('newrelic', 'license')
+
+if newrelic_licence && !newrelic_licence.nil?
   node.default['newrelic_meetme_plugin']['license'] = node['newrelic']['license']
-  if tagged?('elkstack') || tagged?('elkstack_cluster')
+  if tagged?('elkstack')
     node.override['newrelic_meetme_plugin']['services'] = {
       'elasticsearch' => {
         'name' => node['elasticsearch']['cluster']['name'],
@@ -23,13 +26,6 @@ unless node['newrelic']['license'].nil?
 
   user node['newrelic_meetme_plugin']['user']
 
-  include_recipe 'python::package'
-  include_recipe 'python::pip'
-  python_pip 'setuptools' do
-    action :upgrade
-    version node['python']['setuptools_version']
-  end
-
-  include_recipe 'python'
+  include_recipe 'elkstack::_python'
   include_recipe 'newrelic_meetme_plugin'
 end

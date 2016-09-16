@@ -13,7 +13,7 @@ include_recipe 'elkstack::_server'
 node.override['nginx']['repo_source'] = 'epel' if rhel?
 
 # configure / prepare an SSL cert and default htpassword
-include_recipe 'elkstack::kibana_ssl'
+include_recipe 'elkstack::kibana_ssl' if node['elkstack']['config']['kibana']['prepare_ssl']
 
 # nginx cookbook doesn't remove this when !node['nginx']['default_site_enabled']
 # (the main config file template includes both sites-enabled/* and conf.d/*)
@@ -70,13 +70,11 @@ template kibana_config do
     port: node['kibana']['java_webserver_port'],
     elasticsearch: es_server,
     default_route: node['kibana']['config']['default_route'],
-    panel_names:  node['kibana']['config']['panel_names']
+    panel_names: node['kibana']['config']['panel_names']
   )
 end
 
 if install_type == 'file'
-
-  include_recipe 'java::default' if node['kibana']['install_java']
   include_recipe 'runit::default'
 
   runit_service 'kibana' do
@@ -101,12 +99,10 @@ kibana_web 'kibana' do
   es_port node['kibana']['es_port']
   server_name node['kibana']['server_name']
   server_aliases node['kibana']['server_aliases']
+  action :create
   not_if { node['kibana']['webserver'] == '' }
 end
 # end replaces 'kibana::install'
-
-# see https://github.com/rackspace-cookbooks/elkstack/issues/103
-include_recipe 'elkstack::kibana4_workarounds' if node['elkstack']['kibana4_workaround']
 
 # include_recipe 'nginx' # so service[nginx] exists, the one from the LWRP above is not created until runtime
 service 'nginx' do

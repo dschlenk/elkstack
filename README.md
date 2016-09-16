@@ -22,9 +22,9 @@ upstream attributes have been exposed/overriden for our needs.
 
 - This cookbook requires java. Because not everyone has the same desires for
 java versions, concurrently installed versions, or particular vendor versions,
-this cookbook simply assumes you have already satisfied this requirement. If you
-want just 'some java', feel free to use the `::java` recipe and it will include
-the community java cookbook with default values.
+this cookbook simply assumes you have already satisfied this requirement. This
+cookbook _does_ ship with default attributes to make the community cookbook use
+Java 7 over the default of Java 6.
 
 - You must update your Berksfile to use this cookbook. Due to the upstream
 changes constantly occuring, you should consult the `Berksfile` in this cookbook
@@ -116,12 +116,6 @@ CentOS 6.5
     <td><tt>server</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['cluster']</tt></td>
-    <td>Boolean</td>
-    <td>Whether to search for and connect Elasticsearch to cluster nodes</td>
-    <td><tt>false</tt></td>
-  </tr>
-  <tr>
     <td><tt>['elasticsearch']['discovery']['search_query']</tt></td>
     <td>String</td>
     <td>A query to search for and connect Elasticsearch to cluster nodes</td>
@@ -140,7 +134,19 @@ CentOS 6.5
     <td><tt>false</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['iptables']</tt></td>
+    <td><tt>['elkstack']['config']['agent']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable agent functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['cloud_monitoring']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable cloud_monitoring functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['iptables']['enabled']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>
     <td><tt>true</tt></td>
@@ -150,6 +156,12 @@ CentOS 6.5
     <td>String</td>
     <td>Control the name of the self-signed SSL key and cert in /etc/nginx/ssl</td>
     <td><tt>kibana</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['kibana']['prepare_ssl']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/disable automatic creation of an SSL certificate and private key and htpassword file for Kibana's nginx reverse-proxy. If disabled, you are responsible for placing these items in the correct location or supplying your own nginx vhost configuration for Kibana. See the `kibana_ssl` recipe for details.</td>
+    <td><tt>true</tt></td>
   </tr>
   <tr>
     <td><tt>['elkstack']['config']['kibana']['redirect']</tt></td>
@@ -217,44 +229,30 @@ your cookbook using `['kibana']['nginx']['template_cookbook']` and
 `['kibana']['nginx']['template']`. You can also override just the password for
 the reverse proxy using `node.run_state['elkstack_kibana_password']`.
 
-By default, platformstack will call the ``::agent` recipe here. If you have a
-need for the forwarder recipe instead, just please note that you should turn off
-the platformstack flag for logging, and include the `elkstack::agent` recipe
-directly.
-
 To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
 
 ## Usage
 
 ### elkstack::default
 
-Default recipe, does not do anything.
-
-### elkstack::single
-
 A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
 configures an rsyslog sink into logstash on the local box. Everything except
 Logstash and Kibana is locked down to listen only on localhost.
-
-### elkstack::cluster
-
-A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
-configures an rsyslog sink into logstash on the local box. Sets the cluster flag
-so that the elasticsearch recipe builds it in a cluster-friendly way.
 
 ### elkstack::agent
 
 A simple wrapper recipe that sets up a logstash agent on the local box. Also
 configures an rsyslog sink into logstash on the local box.
+You need `node['elkstack']['config']['agent']['enabled']` set to `true` if you want to use this recipe (default to true).
 
 ### elkstack::forwarder
 
-A python-based alternative to the normal agent, configured simply to watch logs
-forward them directly on to the cluster. This project is in heavy development,
-and is not publishing releases very often, so the packaged versions may be quite
-old or buggy. As of the addition of the recipe, the package was almost a year
-behind current development, but only because there also had been no releases
-either.
+A [go-based alternative](https://github.com/elastic/logstash-forwarder) to the normal
+agent, configured simply to watch logs forward them directly on to the cluster. This
+project is in heavy development, and is not publishing releases very often, so the
+packaged versions may be quite old or buggy. As of the addition of the recipe, the
+package was almost a year behind current development, but only because there also
+had been no releases either.
 
 ### elkstack::elasticsearch
 
@@ -270,7 +268,7 @@ search criteria.
 Most of this is configurable using the upstream Elasticsearch cookbook's
 attributes, including the chef search itself. There is not an easy toggle to
 turn off the search, however.
-Enables iptables rules if `node['elkstack']['iptables']['enabled']` is not `nil`.
+Enables iptables rules if `node['elkstack']['config']['iptables']['enabled']` is not `nil`.
 
 ### elkstack::logstash
 
@@ -284,18 +282,11 @@ Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
 an nginx site for kibana by default. By default, it also does not pass through
 most of the http paths directly to elasticsearch (whitelist).
 
-### elkstack::java
-
-Wrapper for a java recipe. This is not included on the run list normally, so if
-you don't already, you must include this recipe or get another JVM installed
-before including anything else in this cookbook.
-
 ### elkstack::newrelic
 
 Validates if there is a newrelic license set and based on that, see if the node
-is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with
-elasticsearch details. Installs python, pip and setuptools packages in order to
-support newrelic_meetme_plugin
+is tagged as 'elkstack' and creates a file with elasticsearch details. Installs
+python, pip and setuptools packages in order to support newrelic_meetme_plugin
 
 ## elkstack::acl
 
@@ -304,7 +295,7 @@ are set.
 
 ## elkstack::agent_acl
 
-Adds agent node basic iptables rules if appropriate attributes are set.
+Adds agent node basic iptables rules.
 
 ## elkstack::disk_setup
 
@@ -320,7 +311,7 @@ monitoring work to make the original recipes cleaner.
 The wrapper recipes are `single` and `cluster`. These change attributes and then
 invoke `elasticsearch`, `logstash`, `kibana`, and `rsyslog`. Finally, there are
 utility recipes like `java` and `newrelic` (not invoked otherwise), as well as
-`acl` which is called by `_base` if `node['elkstack']['iptables']['enabled']`.
+`acl` which is called by `_base` if `node['elkstack']['config']['iptables']['enabled']`.
 
 ## Contributing
 

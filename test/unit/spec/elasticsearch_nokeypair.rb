@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-describe 'elkstack::cluster' do
+describe 'elkstack::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(platform: 'redhat', version: '6.5') do |node|
       stub_resources
@@ -15,13 +15,12 @@ describe 'elkstack::cluster' do
       node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
       node.set['filesystem'] = []
 
-      node.set['elkstack']['config']['cluster'] = false
       node.set['elkstack']['config']['iptables'] = false
     end.converge(described_recipe)
   end
 
   it 'creates lumberjack keypairs when no data bags exist' do
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.key')
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
+    expect(chef_run).to_not create_file('/etc/lumberjack.key')
+    expect(chef_run).to_not create_file('/etc/lumberjack.crt')
   end
 end

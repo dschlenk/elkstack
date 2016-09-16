@@ -15,14 +15,13 @@ describe 'elkstack::agent' do
       node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
       node.set['filesystem'] = []
 
-      node.set['elkstack']['config']['cluster'] = false
       node.set['elkstack']['config']['iptables'] = false
       node.set['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '127.0.0.1'
     end.converge(described_recipe)
   end
 
   it 'creates lumberjack keypairs when no data bags exist' do
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.key')
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
+    expect(chef_run).to_not create_file('/etc/lumberjack.key')
+    expect(chef_run).to_not create_file('/etc/lumberjack.crt')
   end
 end

@@ -30,6 +30,30 @@ server['pattern_templates_cookbook'] = 'logstash'
 server['base_config_cookbook'] = 'logstash'
 server['config_templates_cookbook'] = 'logstash'
 
+default['elkstack']['config']['logstash']['server']['my_templates_cookbook'] = 'elkstack'
+
+default['elkstack']['config']['logstash']['server']['my_template_variables'] = {
+  input_lumberjack_host: '0.0.0.0',
+  input_lumberjack_port: 5960,
+  input_syslog_host: '0.0.0.0',
+  input_syslog_port: 5959,
+  input_tcp_host: '0.0.0.0',
+  input_tcp_port: 5961,
+  input_udp_host: '0.0.0.0',
+  input_udp_port: 5962,
+  chef_environment: node.chef_environment
+}
+
+# templates
+# by default, these are the inputs and outputs on the server
+# we receive anything from any protocol we might know about
+default['elkstack']['config']['logstash']['server']['my_templates'] = {
+  'input_syslog'         => 'logstash/input_syslog.conf.erb',
+  'input_tcp'            => 'logstash/input_tcp.conf.erb',
+  'input_udp'            => 'logstash/input_udp.conf.erb',
+  'output_elasticsearch' => 'logstash/output_elasticsearch.conf.erb'
+}
+
 # variables for templates
 config_templates_variables = {}
 config_templates_variables['elasticsearch_embedded'] = server['enable_embedded_es']
