@@ -38,5 +38,7 @@ default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
 default['elkstack']['elasticsearch']['logging_template_cookbook'] = 'elasticsearch'
 default['elkstack']['elasticsearch']['config_template_cookbook'] = 'elasticsearch'
 
+# set to false to disable using chef search to find unicast cluster members
+default['elkstack']['elasticsearch']['chef_search_discovery'] = true
 # get on a much newer java, required by ES
 default['java']['jdk_version'] = '7' # newer ES requires
