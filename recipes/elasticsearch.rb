@@ -14,7 +14,12 @@ include_recipe 'chef-sugar'
 
 # use chef search, not multicast, for cluster discovery
 node.override['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
-include_recipe 'elasticsearch::search_discovery' unless Chef::Config[:solo]
+if !Chef::Config[:solo] && node['elkstack']['elasticsearch']['chef_search_discovery']
+  Chef::Log.debug "Using Chef search for cluster discovery because #{Chef::Config[:solo]} and #{node['elkstack']['elasticsearch']['chef_search_discovery']}."
+  include_recipe 'elasticsearch::search_discovery' 
+else
+  Chef::Log.debug "Not using Chef search for cluster discovery."
+end
 
 # find and format and mount any relevant disks
 include_recipe 'elkstack::disk_setup'
