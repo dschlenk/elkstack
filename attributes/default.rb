@@ -51,3 +51,7 @@ default['elkstack']['config']['lumberjack_data_bag'] = 'lumberjack'
 
 # should I restart logstash after applying a custom config file?
 default['elkstack']['config']['restart_logstash_service'] = true
+
+default['elkstack']['setuptools']['version'] = '36.6.0'
+
+default['kibana']['java_webserver_port'] = 5601

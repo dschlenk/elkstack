@@ -31,9 +31,10 @@ bash 'manually upgrade setuptools' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
-  easy_install --upgrade setuptools
+  easy_install --upgrade setuptools==#{node['elkstack']['setuptools']['version']}
   EOH
   only_if { rhel? }
+  not_if "pip show setuptools | grep -q #{node['elkstack']['setuptools']['version']}"
 end
 
 include_recipe 'python::virtualenv'

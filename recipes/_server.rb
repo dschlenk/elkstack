@@ -12,7 +12,7 @@ include_recipe 'chef-sugar'
 instance_name = node['elkstack']['config']['logstash']['instance_name']
 
 # for long cloud server names :(
-node.set['nginx']['server_names_hash_bucket_size'] = 128
+node.default['nginx']['server_names_hash_bucket_size'] = 128
 
 # elasticsearch init scripts require ruby -- whee!
 # maybe we'll do something different eventually, since it's only using ruby for

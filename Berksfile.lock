@@ -34,7 +34,7 @@ GRAPH
   dmg (2.3.0)
   elasticsearch (0.3.14)
     ark (>= 0.2.4)
-  elkstack (6.0.5)
+  elkstack (6.0.6)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
     chef-sugar (>= 0.0.0)

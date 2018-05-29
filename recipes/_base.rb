@@ -8,7 +8,7 @@
 # This recipe is applied to clients and servers alike. Use _server or _agent if
 # you need a base that is appropriate only for logging clients or ELK servers.
 
-node.set['apt']['compile_time_update'] = true
+node.default['apt']['compile_time_update'] = true
 include_recipe 'apt'
 include_recipe 'build-essential'
 
