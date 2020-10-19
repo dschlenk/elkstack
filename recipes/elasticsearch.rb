@@ -92,7 +92,7 @@ end
 #
 template "/etc/init.d/elasticsearch" do
   source "elasticsearch.init.erb"
-  cookbook 'elasticsearch'
+  cookbook 'elkstack'
   owner 'root' and mode 0755
 end
 
